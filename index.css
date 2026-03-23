@@ -1,0 +1,535 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 28% 6%;
+    --foreground: 210 20% 92%;
+
+    --card: 222 24% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 222 24% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 160 84% 39%;
+    --primary-foreground: 222 28% 6%;
+
+    --secondary: 222 20% 16%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 222 18% 14%;
+    --muted-foreground: 215 15% 52%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 222 28% 6%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 18% 18%;
+    --input: 222 18% 18%;
+    --ring: 160 84% 39%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 222 28% 8%;
+    --sidebar-foreground: 210 20% 75%;
+    --sidebar-primary: 160 84% 39%;
+    --sidebar-primary-foreground: 222 28% 6%;
+    --sidebar-accent: 222 20% 14%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 222 18% 14%;
+    --sidebar-ring: 160 84% 39%;
+
+    /* Custom tokens */
+    --score-excellent: 160 84% 39%;
+    --score-good: 142 71% 45%;
+    --score-average: 38 92% 50%;
+    --score-poor: 0 72% 51%;
+    --glow-primary: 0 0% 0% / 0, 160 84% 39% / 0.15;
+    --gradient-score: linear-gradient(135deg, hsl(160 84% 39%), hsl(142 71% 45%));
+    --shadow-glow: 0 0 30px hsl(160 84% 39% / 0.2);
+    --shadow-card: 0 4px 24px hsl(222 28% 2% / 0.5);
+
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  .score-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .card-elevated {
+    box-shadow: var(--shadow-card);
+    @apply bg-card border border-border rounded-xl;
+  }
+
+  .gradient-score {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(142 71% 45%));
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(142 71% 45%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-card {
+    @apply card-elevated p-5 transition-all duration-300 hover:border-primary/30;
+  }
+
+  .progress-track {
+    @apply h-2 rounded-full bg-muted overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full gradient-score transition-all duration-500;
+  }
+}
+
+@keyframes progress-ring-rotate {
+  from { stroke-dashoffset: 283; }
+  to { stroke-dashoffset: var(--offset); }
+}
+
+/* ── Hero Cinematic Camera ── */
+@keyframes hero-camera {
+  0%   { transform: scale(1)    translate(0, 0); }
+  25%  { transform: scale(1.06) translate(-1.5%, -0.8%); }
+  50%  { transform: scale(1.08) translate(-2%, -1%); }
+  75%  { transform: scale(1.04) translate(-0.5%, -1.2%); }
+  100% { transform: scale(1)    translate(0, 0); }
+}
+
+.hero-camera {
+  animation: hero-camera 30s ease-in-out infinite;
+}
+
+/* ── Sakura Petal Fall ── */
+@keyframes sakura-fall {
+  0% {
+    transform: translateY(-5vh) translateX(0) rotate(0deg) rotateX(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(25vh) translateX(var(--sway, 50px)) rotate(90deg) rotateX(45deg);
+  }
+  50% {
+    transform: translateY(50vh) translateX(calc(var(--sway, 50px) * -0.6)) rotate(200deg) rotateX(90deg);
+  }
+  75% {
+    transform: translateY(75vh) translateX(var(--sway, 50px)) rotate(300deg) rotateX(135deg);
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(calc(var(--sway, 50px) * -0.3)) rotate(400deg) rotateX(180deg);
+    opacity: 0;
+  }
+}
+
+.sakura-petal {
+  animation: sakura-fall linear infinite;
+  will-change: transform, opacity;
+  box-shadow: 0 0 4px rgba(255, 180, 200, 0.3);
+}
+
+/* ── Wind Particle Drift ── */
+@keyframes wind-drift {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(55vw) translateY(-15px);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(110vw) translateY(10px);
+    opacity: 0;
+  }
+}
+
+.wind-particle {
+  animation: wind-drift linear infinite;
+  will-change: transform, opacity;
+}
+
+/* ── Auth Page: Cinematic Camera ── */
+@keyframes auth-camera {
+  0%   { transform: scale(1.08) translate(0, 0); }
+  30%  { transform: scale(1.12) translate(-1%, -0.5%); }
+  60%  { transform: scale(1.10) translate(0.5%, -1%); }
+  100% { transform: scale(1.08) translate(0, 0); }
+}
+
+.auth-camera {
+  animation: auth-camera 25s ease-in-out infinite;
+}
+
+/* ── Auth Page: Twinkling Stars ── */
+@keyframes auth-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.auth-star {
+  animation: auth-twinkle ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* ── Auth Page: Floating Light Particles ── */
+@keyframes auth-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  15% { opacity: 1; }
+  50% {
+    transform: translateY(-40px) translateX(20px);
+  }
+  85% { opacity: 1; }
+  100% {
+    transform: translateY(-80px) translateX(-15px);
+    opacity: 0;
+  }
+}
+
+.auth-float-particle {
+  animation: auth-float ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* ── Auth Page: Neon Glow Card ── */
+@keyframes auth-neon-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 15px rgba(0, 200, 255, 0.15),
+      0 0 30px rgba(0, 200, 255, 0.08),
+      0 0 60px rgba(120, 80, 255, 0.05),
+      inset 0 0 20px rgba(0, 200, 255, 0.03);
+  }
+  33% {
+    box-shadow:
+      0 0 20px rgba(180, 120, 255, 0.18),
+      0 0 40px rgba(180, 120, 255, 0.10),
+      0 0 70px rgba(255, 100, 200, 0.06),
+      inset 0 0 25px rgba(180, 120, 255, 0.04);
+  }
+  66% {
+    box-shadow:
+      0 0 18px rgba(255, 120, 200, 0.15),
+      0 0 35px rgba(0, 200, 255, 0.10),
+      0 0 65px rgba(0, 200, 255, 0.05),
+      inset 0 0 22px rgba(255, 120, 200, 0.03);
+  }
+}
+
+.auth-neon-card {
+  animation: auth-neon-pulse 6s ease-in-out infinite;
+  border: 1px solid rgba(100, 200, 255, 0.15) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Thematic Backgrounds
+   ═══════════════════════════════════════════════════════ */
+.bg-mountain {
+  background-image: linear-gradient(to bottom, rgba(5,10,25,0.4), rgba(5,10,25,0.8)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-forest {
+  background-image: linear-gradient(to bottom, rgba(5,10,25,0.4), rgba(5,10,25,0.8)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-night {
+  background-image: linear-gradient(to bottom, rgba(10,15,40,0.5), rgba(5,10,25,0.9)), url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&q=80&w=800');
+  background-size: cover;
+  background-position: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Base Theme Variables
+   ═══════════════════════════════════════════════════════ */
+@layer base {
+  :root {
+    --background: 228 35% 8%;
+    --foreground: 210 20% 92%;
+
+    --card: 228 35% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 228 35% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 222 28% 6%;
+
+    --secondary: 228 30% 16%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 228 25% 14%;
+    --muted-foreground: 215 15% 60%;
+
+    --accent: 38 100% 60%;
+    --accent-foreground: 222 28% 6%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 228 25% 20%;
+    --input: 228 25% 20%;
+    --ring: 180 100% 50%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 228 35% 8%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 222 28% 6%;
+    --sidebar-accent: 228 30% 16%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 228 25% 20%;
+    --sidebar-ring: 180 100% 50%;
+
+    /* Score palette */
+    --score-excellent: 180 100% 50%;
+    --score-good: 142 80% 55%;
+    --score-average: 38 100% 60%;
+    --score-poor: 0 85% 60%;
+    --glow-primary: 0 0% 0% / 0, 180 100% 50% / 0.25;
+    --gradient-score: linear-gradient(135deg, hsl(180 100% 50%), hsl(142 80% 55%));
+    --shadow-glow: 0 0 35px hsl(180 100% 50% / 0.3);
+    --shadow-card: 0 8px 32px 0 rgba(0,0,0,0.5);
+
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[#090b14] text-foreground antialiased selection:bg-primary/30;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Component Styles
+   ═══════════════════════════════════════════════════════ */
+@layer components {
+  /* --- Score Glow --- */
+  .score-glow {
+    box-shadow: var(--shadow-glow);
+    animation: glow-border-pulse 3s ease-in-out infinite;
+  }
+
+  /* --- Glassmorphism Card (Refined) --- */
+  .card-elevated {
+    @apply bg-black/40 backdrop-blur-xl rounded-3xl relative overflow-hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .card-elevated:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .border-glow-green { border-color: rgba(74, 222, 128, 0.4); }
+  .border-glow-cyan { border-color: rgba(34, 211, 238, 0.4); }
+  .border-glow-orange { border-color: rgba(251, 146, 60, 0.4); }
+
+  /* --- Gradient Token --- */
+  .gradient-score {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(142 71% 45%));
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(142 71% 45%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* --- RPG Gradient for icons --- */
+  .gradient-icon {
+    background: linear-gradient(135deg, #00eaff, #b478ff, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-icon-bg {
+    background: linear-gradient(135deg, rgba(0, 234, 255, 0.15), rgba(180, 120, 255, 0.15), rgba(244, 114, 182, 0.1));
+  }
+
+  /* --- Stat Card --- */
+  .stat-card {
+    @apply card-elevated p-5 transition-all duration-300;
+    animation: float-slow 6s ease-in-out infinite, glow-border-pulse 4s ease-in-out infinite;
+  }
+  .stat-card:hover {
+    border-color: rgba(0, 234, 255, 0.35);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.6),
+      0 0 35px rgba(0, 234, 255, 0.2),
+      0 0 60px rgba(180, 120, 255, 0.1);
+  }
+
+  /* --- RPG XP Progress Bar --- */
+  .progress-track {
+    @apply h-2.5 rounded-full overflow-hidden;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-700;
+    background: linear-gradient(90deg, #00eaff, #7c3aed, #b478ff);
+    box-shadow: 0 0 12px rgba(0, 234, 255, 0.5), 0 0 24px rgba(180, 120, 255, 0.3);
+    animation: xp-glow-pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: progress-shimmer 2.5s ease-in-out infinite;
+  }
+
+  /* --- RPG Pill Button --- */
+  .rpg-button {
+    @apply rounded-full font-semibold text-sm relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(0, 234, 255, 0.15), rgba(180, 120, 255, 0.15));
+    border: 1px solid rgba(0, 234, 255, 0.25);
+    color: #e0e6ff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 0 6px rgba(0, 234, 255, 0.3);
+  }
+  .rpg-button:hover {
+    transform: scale(1.05);
+    border-color: rgba(0, 234, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.25), 0 0 40px rgba(180, 120, 255, 0.15);
+    background: linear-gradient(135deg, rgba(0, 234, 255, 0.25), rgba(180, 120, 255, 0.25));
+  }
+  .rpg-button:active {
+    animation: particle-burst 0.3s ease-out;
+    transform: scale(0.97);
+  }
+
+  /* --- Neon Active Indicator (sidebar) --- */
+  .neon-active {
+    position: relative;
+    background: rgba(74, 222, 128, 0.1) !important;
+    border-left: 3px solid #4ade80 !important;
+    box-shadow: -10px 0 20px rgba(74, 222, 128, 0.1), inset 0 0 12px rgba(74, 222, 128, 0.05) !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Global Scrollbar
+   ═══════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090b14;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(0, 234, 255, 0.4), rgba(180, 120, 255, 0.4));
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0, 234, 255, 0.3), rgba(180, 120, 255, 0.3));
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(0, 234, 255, 0.5), rgba(180, 120, 255, 0.5));
+}
+
+/* ═══════════════════════════════════════════════════════
+   Solo Character Zoom-Out (Power Level Card)
+   ═══════════════════════════════════════════════════════ */
+@keyframes soloZoomOut {
+  0%   { transform: scale(1.15); }
+  100% { transform: scale(1.0); }
+}
+
+.solo-zoom-out {
+  animation: soloZoomOut 18s ease-in-out infinite alternate;
+  transform-origin: center top;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Pulsing Glow Behind Score Card
+   ═══════════════════════════════════════════════════════ */
+@keyframes glowShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.score-card-glow {
+  background: linear-gradient(135deg, #00eaff, #b478ff, #f472b6, #00eaff);
+  background-size: 300% 300%;
+  animation: glowShift 6s ease-in-out infinite;
+  filter: blur(18px);
+  opacity: 0.45;
+}

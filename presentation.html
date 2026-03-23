@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FocusX Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:#03030b;color:#e0e0f0;overflow-x:hidden}
+
+  /* Slide Container */
+  .slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 80px;position:relative;overflow:hidden}
+  .slide::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(120,80,255,0.08) 0%,transparent 60%);pointer-events:none}
+
+  /* Particles */
+  .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .particle{position:absolute;width:3px;height:3px;background:rgba(180,140,255,0.4);border-radius:50%;animation:float linear infinite}
+  @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+  /* Typography */
+  h1{font-family:'Orbitron',sans-serif;font-size:3.5rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#22d3ee,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;line-height:1.2;margin-bottom:16px}
+  h2{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:700;color:#a78bfa;text-align:center;margin-bottom:40px;text-shadow:0 0 30px rgba(167,139,250,0.4)}
+  h3{font-size:1.3rem;font-weight:700;color:#22d3ee;margin-bottom:12px}
+  p,.subtitle{font-size:1.1rem;color:#a0a0c0;line-height:1.7;text-align:center;max-width:700px}
+  .subtitle{font-size:1.3rem;color:#c0c0e0;margin-bottom:8px}
+
+  /* Glass Card */
+  .glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:36px;transition:all .3s ease}
+  .glass:hover{border-color:rgba(167,139,250,0.3);box-shadow:0 0 40px rgba(167,139,250,0.1)}
+
+  /* Grids */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%;max-width:1100px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;width:100%;max-width:1100px}
+  .grid-4{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:1100px}
+
+  .feature-card{text-align:left}
+  .feature-card .icon{font-size:2rem;margin-bottom:12px;filter:drop-shadow(0 0 10px currentColor)}
+  .feature-card p{text-align:left;font-size:0.95rem;color:#8888aa}
+
+  .tech-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:12px 20px;font-weight:600;font-size:0.95rem;color:#c4b5fd}
+
+  .schema-table{width:100%;max-width:1100px;border-collapse:collapse;margin-top:10px}
+  .schema-table th{background:rgba(167,139,250,0.15);color:#a78bfa;padding:14px 18px;text-align:left;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid rgba(167,139,250,0.2)}
+  .schema-table td{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.9rem;color:#b0b0cc}
+  .schema-table tr:hover td{background:rgba(167,139,250,0.05)}
+
+  .flow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+  .flow-box{background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);border-radius:12px;padding:14px 22px;font-weight:600;font-size:0.9rem;color:#22d3ee}
+  .flow-arrow{color:#555;font-size:1.4rem}
+
+  .slide-num{position:absolute;bottom:30px;right:40px;font-family:'Orbitron';font-size:0.75rem;color:#444;letter-spacing:2px}
+  .label{display:inline-block;background:linear-gradient(135deg,#a78bfa,#22d3ee);color:#0a0a1a;font-weight:700;font-size:0.75rem;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+  .divider{width:80px;height:3px;background:linear-gradient(90deg,#a78bfa,#22d3ee);border-radius:10px;margin:20px auto}
+
+  .glow-cyan{color:#22d3ee;text-shadow:0 0 15px rgba(34,211,238,0.5)}
+  .glow-purple{color:#a78bfa;text-shadow:0 0 15px rgba(167,139,250,0.5)}
+  .glow-pink{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,0.5)}
+  .glow-orange{color:#fb923c;text-shadow:0 0 15px rgba(251,146,60,0.5)}
+  .glow-green{color:#22c55e;text-shadow:0 0 15px rgba(34,197,94,0.5)}
+
+  .fade-in{opacity:0;transform:translateY(30px);transition:all 0.6s ease}
+  .fade-in.visible{opacity:1;transform:translateY(0)}
+
+  .nav-dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:100}
+  .nav-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .3s}
+  .nav-dot.active{background:#a78bfa;box-shadow:0 0 12px rgba(167,139,250,0.6);transform:scale(1.3)}
+
+  .key-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:0.75rem;color:#444;z-index:100;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+<div class="nav-dots" id="navDots"></div>
+<div class="key-hint">Keyboard arrows or scroll to navigate</div>
+
+<!-- Slide 1 -->
+<section class="slide" id="s1">
+  <div class="label">Final Year Project</div>
+  <h1>FocusX - Habit Tracker</h1>
+  <div class="divider"></div>
+  <p class="subtitle">Anime RPG-Themed Life Management App</p>
+  <p style="margin-top:16px;font-size:0.95rem">React | TypeScript | Supabase | TailwindCSS</p>
+  <div class="slide-num">01 / 12</div>
+</section>
+
+<!-- Slide 2 -->
+<section class="slide" id="s2">
+  <h2>Target Goal</h2>
+  <div class="grid-2 fade-in">
+    <div class="glass feature-card">
+      <div class="icon">🎯</div>
+      <h3>The Challenge</h3>
+      <p>Self-improvement is often boring and hard to track consistently across multiple life areas.</p>
+    </div>
+    <div class="glass feature-card">
+      <div class="icon">✨</div>
+      <h3>FocusX Solution</h3>
+      <p>Turning daily tracking into a game. Motivates through XP, levels, and immersive anime visuals.</p>
+    </div>
+  </div>
+  <div class="slide-num">02 / 12</div>
+</section>
+
+<!-- Slide 3 -->
+<section class="slide" id="s3">
+  <h2>Tech Stack</h2>
+  <div class="grid-3 fade-in">
+    <div class="glass feature-card" style="text-align:center">
+      <div class="icon">⚛️</div>
+      <h3>Frontend</h3>
+      <p>React, TypeScript, Vite, Framer Motion</p>
+    </div>
+    <div class="glass feature-card" style="text-align:center">
+      <div class="icon">⚡</div>
+      <h3>Backend</h3>
+      <p>Supabase Auth, DB, and Realtime</p>
+    </div>
+    <div class="glass feature-card" style="text-align:center">
+      <div class="icon">🔗</div>
+      <h3>Integrations</h3>
+      <p>Google Calendar & AI Coaching</p>
+    </div>
+  </div>
+  <div class="slide-num">03 / 12</div>
+</section>
+
+<!-- Slide 4 -->
+<section class="slide" id="s4">
+  <h2>System Architecture</h2>
+  <div class="flow fade-in">
+    <div class="flow-box">Vite + React</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-box">Supabase Cloud</div>
+    <div class="flow-arrow">&larr;&rarr;</div>
+    <div class="flow-box">Google API</div>
+  </div>
+  <div class="glass fade-in" style="max-width:700px;margin-top:32px;text-align:center">
+    <p>Secure architecture using RLS (Row Level Security) and JWT Authentication.</p>
+  </div>
+  <div class="slide-num">04 / 12</div>
+</section>
+
+<!-- Slide 5 -->
+<section class="slide" id="s5">
+  <h2>Database Schema</h2>
+  <table class="schema-table fade-in">
+    <thead><tr><th>Table</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>profiles</td><td>User levels & experience</td></tr>
+      <tr><td>study_sessions</td><td>Work/Focus time tracking</td></tr>
+      <tr><td>workouts</td><td>Gym and exercise logs</td></tr>
+      <tr><td>sleep_logs</td><td>Sleep quality & duration</td></tr>
+      <tr><td>expenses</td><td>Financial management</td></tr>
+      <tr><td>notes</td><td>Journaling and pinning</td></tr>
+    </tbody>
+  </table>
+  <div class="slide-num">05 / 12</div>
+</section>
+
+<!-- Slide 12 -->
+<section class="slide" id="s12">
+  <div class="label">Thank You</div>
+  <h1>Questions?</h1>
+  <div class="divider"></div>
+  <p class="subtitle">FocusX - Level Up Your Life</p>
+  <div class="slide-num">12 / 12</div>
+</section>
+
+<script>
+  const container = document.getElementById('particles');
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(8+Math.random()*12)+'s';
+    p.style.animationDelay=Math.random()*10+'s';
+    container.appendChild(p);
+  }
+
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+  },{threshold:0.15});
+  document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+  const slides=document.querySelectorAll('.slide');
+  const dotsContainer=document.getElementById('navDots');
+  slides.forEach((_,i)=>{
+    const dot=document.createElement('div');
+    dot.className='nav-dot';
+    dot.addEventListener('click',()=>slides[i].scrollIntoView({behavior:'smooth'}));
+    dotsContainer.appendChild(dot);
+  });
+  const dots=document.querySelectorAll('.nav-dot');
+  const dotObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const idx=Array.from(slides).indexOf(e.target);
+        dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+      }
+    });
+  },{threshold:0.5});
+  slides.forEach(s=>dotObserver.observe(s));
+</script>
+</body>
+</html>
